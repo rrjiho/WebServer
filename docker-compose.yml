@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  game-api:
+    build: .
+    container_name: game-api-container
+    ports:
+      - "5000:80"
+    restart: always
+    env_file:
+      - .env.prod
