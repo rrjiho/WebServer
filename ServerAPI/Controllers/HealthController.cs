@@ -3,10 +3,10 @@
 namespace ServerAPI.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("health")]
     public class HealthController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get() => Ok("Healthy");
+        public IActionResult GetHealth() => Ok("OK");
     }
 }
