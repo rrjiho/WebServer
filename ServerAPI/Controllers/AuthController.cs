@@ -16,13 +16,16 @@ namespace ServerAPI.Controllers
         private readonly ISessionService _sessionService;
         private readonly IGoogleAuthService _googleAuthService;
 
-        public AuthController(IUserService userService, IDistributedCache cache)
+        public AuthController(IUserService userService, IDistributedCache cache, ISessionService sessionService, IGoogleAuthService googleAuthService)
         {
             _userService = userService;
             _cache = cache;
+            _sessionService = sessionService;
+            _googleAuthService = googleAuthService;
         }
 
         [HttpPost("google-login")]
+        [AllowAnonymous]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
         {
             var payload = await _googleAuthService.VerifyIdTokenAsync(dto.IdToken);

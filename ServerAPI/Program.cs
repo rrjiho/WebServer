@@ -62,7 +62,7 @@ namespace ServerAPI
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("http://127.0.0.1:5500") 
+                    policy.WithOrigins("https://servercloud-dev.com") 
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
@@ -76,17 +76,12 @@ namespace ServerAPI
 
             var app = builder.Build();
 
-            //if (app.Environment.IsDevelopment())
-            //{
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game Server API v1"));
-            //}
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game Server API v1"));
 
             app.UseCors("AllowFrontend");
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMiddleware<SessionAuthMiddleware>();
             app.UseAuthorization();
