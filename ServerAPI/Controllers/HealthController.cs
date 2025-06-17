@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ServerAPI.Controllers
 {
@@ -7,6 +8,7 @@ namespace ServerAPI.Controllers
     public class HealthController : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetHealth() => Ok("OK");
     }
 }
