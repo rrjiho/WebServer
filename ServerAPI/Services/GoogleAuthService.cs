@@ -3,19 +3,12 @@
 namespace ServerAPI.Services
 {
     public class GoogleAuthService : IGoogleAuthService
-    {
-        private readonly IConfiguration _config;
-
-        public GoogleAuthService(IConfiguration config)
-        {
-            _config = config;
-        }
-
+    {     
         public async Task<GoogleJsonWebSignature.Payload> VerifyIdTokenAsync(string idToken)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings
             {
-                Audience = new[] { _config["Google:ClientId"] }
+                Audience = new[] { Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") }
             };
             return await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
         }
