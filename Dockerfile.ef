@@ -1,0 +1,13 @@
+# EF 마이그레이션 전용 SDK 이미지
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /src
+
+# dotnet ef 설치
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+COPY . .
+
+# 기본 명령
+CMD ["/bin/bash"]
