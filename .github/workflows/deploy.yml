@@ -3,15 +3,15 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - master
+      - master 
 
 jobs:
   deploy:
-    name: Deploy to EC2 Instance
+    name: Deploy to EC2 Server
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v3
 
     - name: Setup SSH Agent
@@ -21,7 +21,7 @@ jobs:
 
     - name: SSH and Deploy
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@3.36.96.0 << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@43.202.3.182 << 'EOF'
           cd ~/WebServer
           git pull origin master
           docker compose down
