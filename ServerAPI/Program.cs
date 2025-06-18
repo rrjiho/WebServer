@@ -62,7 +62,7 @@ namespace ServerAPI
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("https://servercloud-dev.com") 
+                    policy.WithOrigins("http://127.0.0.1:5500", "https://servercloud-dev.com") 
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
