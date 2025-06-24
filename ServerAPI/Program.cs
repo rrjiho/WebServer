@@ -48,7 +48,7 @@ namespace ServerAPI
             builder.Services.AddSession(options =>
             {
                 options.Cookie.SameSite = SameSiteMode.Lax;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
                 options.Cookie.HttpOnly = true;
             });
 
