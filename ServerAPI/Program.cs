@@ -45,13 +45,6 @@ namespace ServerAPI
                 options.Configuration = redisConn;
             });
 
-            builder.Services.AddSession(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.Lax;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-                options.Cookie.HttpOnly = true;
-            });
-
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -89,7 +82,6 @@ namespace ServerAPI
             app.UseCors("AllowFrontend");
 
             //app.UseHttpsRedirection();
-            app.UseSession();
             app.UseAuthentication();
             app.UseMiddleware<SessionAuthMiddleware>();
             app.UseAuthorization();
