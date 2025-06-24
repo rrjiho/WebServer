@@ -24,6 +24,28 @@ namespace ServerAPI.Controllers
             _googleAuthService = googleAuthService;
         }
 
+        [HttpPost("test-login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> TestLogin([FromBody] TestLoginDto dto)
+        {
+            // 운영 차단
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                return Unauthorized("Test login not allowed in production");
+
+            var user = await _userService.FindOrCreateUserByGoogleIdAsync(dto.GoogleId, dto.Nickname);
+
+            var sessionId = await _sessionService.CreateSessionAsync(user.Id);
+
+            Response.Cookies.Append("SessionId", sessionId, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            return Ok(new { userId = user.Id, user.Username });
+        }
+
         [HttpPost("google-login")]
         [AllowAnonymous]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)

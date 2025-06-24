@@ -12,5 +12,6 @@ namespace ServerAPI.Services
         Task<Resources> GetResourcesAsync(string userId);
         Task AddResourcesAsync(string userId, int gold, int gems);
         Task UseResourcesAsync(string userId, int gold, int gems);
+        Task<User> FindOrCreateUserByGoogleIdAsync(string googleId, string? nickname);
     }
 }

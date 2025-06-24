@@ -18,6 +18,7 @@ namespace ServerAPI.Middlewares
             var path = context.Request.Path.ToString().ToLower();
 
             if (
+                path.Contains("/api/auth/test-login") ||
                 path.Contains("/api/auth/google-login") || 
                 path.Contains("/swagger") || 
                 path.Contains("/api/auth/logout") ||
