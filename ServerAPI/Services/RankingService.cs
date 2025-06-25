@@ -45,7 +45,7 @@ namespace ServerAPI.Services
             string serialized = JsonConvert.SerializeObject(rankings);
             await _cache.SetStringAsync(cacheKey, serialized, new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
             });
 
             return rankings;
