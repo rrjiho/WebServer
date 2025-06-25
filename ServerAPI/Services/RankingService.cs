@@ -23,13 +23,13 @@ namespace ServerAPI.Services
 
         public async Task<List<RankingDto>> GetTopRankingsAsync()
         {
-            //string cacheKey = "ranking:top10";
-         
-            //string cached = await _cache.GetStringAsync(cacheKey);
-            //if (!string.IsNullOrEmpty(cached))
-            //{
-            //    return JsonConvert.DeserializeObject<List<RankingDto>>(cached);
-            //}
+            string cacheKey = "ranking:top10";
+
+            string cached = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cached))
+            {
+                return JsonConvert.DeserializeObject<List<RankingDto>>(cached);
+            }
 
             var rankings = await _context.Rankings
                             .OrderBy(r => r.Rank)
@@ -42,11 +42,11 @@ namespace ServerAPI.Services
                             })
                             .ToListAsync();
 
-            //string serialized = JsonConvert.SerializeObject(rankings);
-            //await _cache.SetStringAsync(cacheKey, serialized, new DistributedCacheEntryOptions
-            //{
-            //    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
-            //});
+            string serialized = JsonConvert.SerializeObject(rankings);
+            await _cache.SetStringAsync(cacheKey, serialized, new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            });
 
             return rankings;
         }

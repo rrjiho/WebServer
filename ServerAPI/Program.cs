@@ -45,6 +45,7 @@ namespace ServerAPI
                 options.Configuration = redisConn;
             });
 
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
