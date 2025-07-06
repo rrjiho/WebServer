@@ -15,29 +15,6 @@ namespace ServerAPI.Services
             _context = context;
         }
 
-        public async Task<User> FindOrCreateUserByGoogleIdAsync(string googleId, string? nickname)
-        {
-            var user = await _context.Users
-                                     .FirstOrDefaultAsync(u => u.GoogleId == googleId);
-
-            if (user == null)
-            {
-                user = new User
-                {
-                    GoogleId = googleId,
-                    Email = $"{googleId}@test.com",        
-                    Username = nickname ?? googleId             
-                                                                
-                };
-
-                user.Resources = new Resources();                 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();                
-            }
-
-            return user;
-        }
-
         public async Task<User> FindOrCreateUserAsync(GoogleJsonWebSignature.Payload payload)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject);

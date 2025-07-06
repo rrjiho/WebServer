@@ -6,8 +6,6 @@ using Microsoft.OpenApi.Models;
 using ServerAPI.DB;
 using ServerAPI.Middlewares;
 using ServerAPI.Services;
-using StackExchange.Redis;
-using System.Text;
 
 namespace ServerAPI
 {
