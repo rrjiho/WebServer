@@ -1,44 +1,36 @@
-# HTTPserver 문서
+# 모바일 싱글 플레이 게임 웹 서버
+모바일 싱글플레이 게임을 위한 RESTful API 서버입니다.  
+OAuth 2.0 인증, 세션 관리, Redis 캐시, Auto Scaling 기반 트래픽 분산 구조를 갖춘 실무형 백엔드 서버를 구축했습니다.
 
-## 1. 개요
-ASP.NET Core Web API 다양한 기능을 포함하여 확장성을 고려한 설계를 적용합니다.
+## 기술 스택
+- Language: C#
+- Backend: ASP.NET Core, EF Core
+- Database: MySQL, Redis
+- Infra/DevOps: AWS (ELB, EC2, RDS, ElasticCache), Docker, Github Actions
+- Tools: Visual Studio, Git, Postman, JMeter
 
-## 2. 시스템 구성
-- **클라이언트:** Postman, k6
-- **서버:** ASP.NET Core Web(Restful) API
-- **DB:** SQLServer (Entity Framework 사용), Redis
+## 주요 기능
+- OAuth 2.0 기반 로그인 + Redis 세션 인증 처리
+- 랭킹 시스템 API Redis 캐시 적용 (응답 속도 개선)
+- AWS ELB + ASG 구조로 TPS 400 트래픽 분산 테스트 완료
+- Github Actions 자동 배포 연동 (무중단 배포)
+- 도메인 기반 폴더 구조로 모듈 분리 및 유지보수 용이
 
-## 3. 아키텍처 다이어그램
-```plaintext
-+------------+        +----------------+        +------------+
-|   Client   | <-->   |   API Server   | <-->   |     DB     |
-+------------+        +----------------+        +------------+
-```
+## 성능 테스트 결과
+| 항목                | 개선 전     | 개선 후     | 향상율       |
+| ----------------- | -------- | -------- | --------- |
+| 세션 TPS 안정성        | 150\~180 | **210+** | +30%      |
+| 랭킹 API 응답속도 (Avg) | 39ms     | **29ms** | **25.6%** |
+| TPS 최대 처리량        | 200      | **400**  | +100%     |
+| 세션 인증 실패율         | 0.4%     | **0%**   | ✅         |
 
-## 4. 주요 기능
-### 4.1. 네트워크 통신
-- HTTP 기반 네트워크 통신 서버 구축
-- `async/await` 활용하여 비동기 작업 구현
+## 아키텍처
+![AWS 도식화 최종](https://github.com/user-attachments/assets/b1ef8359-e24d-475c-8d26-5e62ec997af0)
 
-### 4.2. 로그인, 유저, 랭킹 등 컨텐츠 구현
-- 로그인 인증 로직 구현 (JWT)
-- 유저 정보 저장 로직 구현
-- 랭킹 시스템 로직 구현
+클라이언트 -> ELB -> EC2 (Auto Scaling) -> RDS, ElasticCache
 
-### 4.3. DTO 구조 설계
-- 보안에 민감한 정보 노출을 방지하기 위해 필요한 데이터만 전달하도록 설계
-
-### 4.4. 데이터베이스 연동
-- Entity Framework Core를 활용한 데이터 저장 및 활용
-- 사용자 및 게임 데이터 관리
-
-### 4.5. k6 부하 테스트 진행 (Redis)
-- 랭킹 로직 vus: 200 진행
-- Redis 캐시 적용 후 진행
-
-## 5. 개발 환경
-- **IDE:** Visual Studio 2022
-- **Framework:** .NET 8.0
-- **Database:** SQLServer
-- **ORM:** Entity Framework Core
-- **Cache:** Redis
+## 프로젝트를 마치며
+단순한 API 기능 구현을 넘어서 실제 서비스 환경에서 발생할 수 있는 병목과 장애 상황을 체험하고  
+이를 구조적으로 개선하는 과정에 중점을 두었습니다.  
+트래픽 분산, 캐시 도입, 자동화 배포 등 실무와 유사한 환경을 직접 구축하고 실험하면서  
+성능 개선과 구조적 사고의 중요성을 깊이 체감할 수 있었습니다.
